@@ -1,0 +1,13 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        opaque-token:
+          introspection-uri: http://localhost:3000/introspect
+          client-id: clientId
+          client-secret: clientSecret
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
