@@ -1,0 +1,4 @@
+javamelody:
+  init-parameters:
+    monitoring-path: /admin/monitoring
+    authorized-users: admin:password, jonsnow:password
