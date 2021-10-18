@@ -1,0 +1,6 @@
+com/trungtiendo/object_mapper_example/model/Room.java
+ com.trungtiendo.object_mapper_example.model.Room
+com/trungtiendo/object_mapper_example/ObjectMapperExample.java
+ com.trungtiendo.object_mapper_example.ObjectMapperExample
+com/trungtiendo/object_mapper_example/model/Property.java
+ com.trungtiendo.object_mapper_example.model.Property
