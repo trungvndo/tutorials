@@ -4,3 +4,28 @@ spring:
       host: localhost
       port: 27017
       database: property
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health,info,env,beans,metrics
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+    info:
+      enabled: true
+    env:
+      enabled: true
+    beans:
+      enabled: true
+    metrics:
+      enabled: true
+
+info:
+  author: trungdo
+  date: 2021-10-27
