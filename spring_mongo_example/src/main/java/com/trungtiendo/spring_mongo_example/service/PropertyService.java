@@ -5,9 +5,7 @@ import com.trungtiendo.spring_mongo_example.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +27,8 @@ public class PropertyService {
     }
 
     public Property createProperty(Property property) {
+        int[] copy = new int[5];
+        Arrays.sort(copy, Comparator.comparingInt(Integer.).reversed());
         this.propertyRepository.insert(property);
         return property;
     }

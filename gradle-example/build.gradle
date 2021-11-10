@@ -1,0 +1,81 @@
+import org.apache.commons.codec.binary.Base64
+import javax.inject.Inject
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'commons-codec', name: 'commons-codec', version: '1.2'
+    }
+}
+
+tasks.register('copy', Copy) {
+    from(file('srcDir'))
+    into(buildDir)
+}
+
+tasks.register('encode') {
+    doLast {
+        def byte[] encodedString = new Base64().encode('trungdo\n'.getBytes())
+        println new String(encodedString)
+    }
+}
+
+defaultTasks 'helloTask'
+
+tasks.register('helloTask') {
+    doLast {
+        println 'Hello world'
+    }
+}
+
+tasks.register('countTask') {
+    doLast {
+        5.times {print "$it "}
+    }
+}
+
+tasks.named('countTask') {
+    dependsOn('helloTask')
+}
+
+tasks.named('helloTask') {
+    doFirst {
+        println("Doing this first")
+    }
+}
+
+tasks.register('myCopy', Copy) {
+    from 'resources'
+    into 'target'
+    include('**/*.yaml','**/*.properties')
+}
+
+println tasks.named('helloTask').get().name
+println tasks.named('countTask').get().name
+println tasks.named('copy').get().destinationDir
+tasks.withType(Copy).each {it ->
+    println('Name of task: ' + it.name)
+}
+
+tasks.register('task1') {
+    description('a glorious task 1')
+    doLast {
+        println 'task1'
+    }
+}
+
+def task2 = tasks.register('task2') {
+    description 'another glorious task 2'
+    doLast {
+        println 'task2'
+    }
+}
+
+task2.configure {
+    mustRunAfter('task1')
+}
