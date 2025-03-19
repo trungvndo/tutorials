@@ -1,0 +1,42 @@
+type Query {
+    bookById(id: ID): Book
+    books(filter: BookFilter): [Book]
+}
+
+type Mutation {
+    addBook(input: BookInput): Book
+    deleteBook(id: ID): Book
+}
+
+input BookInput {
+    name: String!
+    pageCount: Int
+    category: Category!
+    authorId: ID!
+}
+
+input BookFilter {
+    category: Category
+    authorId: String
+}
+
+type Book {
+    id: ID
+    name: String
+    pageCount: Int
+    category: Category
+    author: Author
+}
+
+enum Category {
+    FICTION,
+    NONFICTION,
+    BIOGRAPHY,
+    LANGUAGE
+}
+
+type Author {
+    id: ID
+    firstName: String
+    lastName: String
+}
