@@ -1,6 +1,7 @@
 package com.trungdo.graphql_server.controller;
 
 import com.trungdo.graphql_server.entity.BookStore;
+import com.trungdo.graphql_server.entity.BookStoreQueries;
 import com.trungdo.graphql_server.entity.Person;
 import com.trungdo.graphql_server.entity.PhysicalBookStore;
 import com.trungdo.graphql_server.service.BookStoreService;
@@ -26,14 +27,6 @@ public class BookStoreController {
         return service.getBookStores();
     }
 
-//    @SchemaMapping(field = "owner")
-//    public Person getOwner(BookStore bookStore) {
-//        // call only for PhysicalBookStore subtype
-//        if (bookStore instanceof PhysicalBookStore) {
-//            return service.getPersonById(((PhysicalBookStore) bookStore).getOwnerId());
-//        }
-//        return null;
-//    }
 
     @SchemaMapping(field = "owner")
     public Person owner(PhysicalBookStore bookStore) {
