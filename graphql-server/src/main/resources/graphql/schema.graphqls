@@ -1,11 +1,16 @@
 type Query {
     bookById(id: ID): Book
-    books(filter: BookFilter): [Book]
+    books(filter: BookFilter): [Book!]!
+    bookstores: [BookStore!]!
 }
 
 type Mutation {
-    addBook(input: BookInput): Book
-    deleteBook(id: ID): Book
+    addBook(input: BookInput): Book!
+    deleteBook(id: ID): Book!
+}
+
+type Subscription {
+    getLatestPurchasedBook: Book!
 }
 
 input BookInput {
@@ -21,10 +26,10 @@ input BookFilter {
 }
 
 type Book {
-    id: ID
-    name: String
+    id: ID!
+    name: String!
     pageCount: Int
-    category: Category
+    category: Category!
     author: Author
 }
 
@@ -36,7 +41,30 @@ enum Category {
 }
 
 type Author {
-    id: ID
-    firstName: String
-    lastName: String
+    id: ID!
+    firstName: String!
+    lastName: String!
+}
+
+interface BookStore {
+     id: ID!
+     name: String!
+}
+
+type DigitalBookStore implements BookStore {
+    id: ID!
+    name: String!
+    website: String!
+}
+
+type PhysicalBookStore implements BookStore {
+    id: ID!
+    name: String!
+    address: String!
+    owner: Person!
+}
+
+type Person {
+    id: ID!
+    name: String!
 }
