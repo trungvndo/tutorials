@@ -45,21 +45,21 @@ public class BookController {
         return bookService.getBooksByFilter(bookFilter);
     }
 
-    @SchemaMapping
-    public Author author(Book book) {
-        log.info("Getting author for book - " + book.id());
-        return authorService.getById(book.authorId());
-    }
+//    @SchemaMapping
+//    public Author author(Book book) {
+//        log.info("Getting author for book - " + book.id());
+//        return authorService.getById(book.authorId());
+//    }
 
 //    @SchemaMapping
 //    public CompletableFuture<Author> author(Book book, DataLoader<String, Author> dataLoader) {
 //        return dataLoader.load(book.authorId());
 //    }
 //
-//    @BatchMapping
-//    public Mono<Map<Book, Author>> author(List<Book> books) {
-//        return Mono.just(authorService.getAuthorsForBooks(books));
-//    }
+    @BatchMapping
+    public Mono<Map<Book, Author>> author(List<Book> books) {
+        return Mono.just(authorService.getAuthorsForBooks(books));
+    }
 
     @MutationMapping(name = "addBook")
     public Book addBook(@Argument(name = "input") BookInput bookInput) {
