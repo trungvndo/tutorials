@@ -1,1 +1,11 @@
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: catalog
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: example_password
+    ports:
+      - "5432:5432"
+
