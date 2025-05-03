@@ -11,41 +11,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
-
-    private CustomAuthenticationProvider authenticationProvider;
-
-    public SecurityConfig(CustomAuthenticationProvider provider) {
-        this.authenticationProvider = provider;
-    }
-
     @Bean
-    UserDetailsService userDetailsService() {
-        UserDetails user = User
-                .withUsername("john")
-                .password("example")
-                .authorities("read")
-                .build();
-        return new InMemoryUserDetailsManager(user);
+    public UserDetailsService userDetailsService(DataSource dataSource) {
+        String usersByUsernameQuery = "select email, password, is_active from users where email = ?";
+        String authsByUsernameQuery = "select email, authority from authorities where email = ?";
+
+        var manager = new JdbcUserDetailsManager(dataSource);
+        manager.setUsersByUsernameQuery(usersByUsernameQuery);
+        manager.setAuthoritiesByUsernameQuery(authsByUsernameQuery);
+        return manager;
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.httpBasic(Customizer.withDefaults());
-        http.authorizeHttpRequests(
-                c -> c.anyRequest().authenticated()
-        );
-
-        http.authenticationProvider(this.authenticationProvider);
-
-        return http.build();
     }
 }

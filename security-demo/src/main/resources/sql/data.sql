@@ -1,9 +1,9 @@
 INSERT INTO users
-(username, password, enabled)
+(email, first_name, last_name, password, is_active)
 VALUES
-('john', '12345', 1);
+('john@gmail.com', 'John', 'Doe', '12345', 1);
 
 INSERT INTO authorities
-(username, authority)
+(email, authority)
 VALUES
-('john', 'write');
+('john@gmail.com', 'write');
