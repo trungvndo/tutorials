@@ -13,24 +13,34 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        String usersByUsernameQuery = "select email, password, is_active from users where email = ?";
-        String authsByUsernameQuery = "select email, authority from authorities where email = ?";
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        String usersByUsernameQuery = "select email, password, is_active from users where email = ?";
+//        String authsByUsernameQuery = "select email, authority from authorities where email = ?";
+//
+//        var manager = new JdbcUserDetailsManager(dataSource);
+//        manager.setUsersByUsernameQuery(usersByUsernameQuery);
+//        manager.setAuthoritiesByUsernameQuery(authsByUsernameQuery);
+//        return manager;
+//    }
+//
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
 
-        var manager = new JdbcUserDetailsManager(dataSource);
-        manager.setUsersByUsernameQuery(usersByUsernameQuery);
-        manager.setAuthoritiesByUsernameQuery(authsByUsernameQuery);
-        return manager;
-    }
-
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests(c -> c.anyRequest().permitAll());
+
+        return http.build();
     }
 }
