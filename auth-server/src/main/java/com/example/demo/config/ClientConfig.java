@@ -61,7 +61,18 @@ public class ClientConfig {
                         .scope("custom")
                         .build();
 
-        return new InMemoryRegisteredClientRepository(client1, client2, client3);
+        RegisteredClient resourceServer =
+                RegisteredClient
+                        .withId(UUID.randomUUID().toString())
+                        .clientId("resource_server")
+                        .clientSecret("resource_server_secret")
+                        .clientAuthenticationMethod(
+                                ClientAuthenticationMethod.CLIENT_SECRET_BASIC
+                        )
+                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                        .build();
+
+        return new InMemoryRegisteredClientRepository(client1, client2, client3, resourceServer);
     }
 
 }
